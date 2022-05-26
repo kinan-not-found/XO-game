@@ -17,5 +17,3 @@ jobs:
       run: ./XO-game.cpp
     - name: XOboard
       run: ./XOboard.cpp
-    - name: run
-      run: ./XOboard.h
