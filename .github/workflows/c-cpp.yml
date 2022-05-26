@@ -14,6 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: XO-game
+      run: sudo chmod 744 /home/user/XO-game.cpp
       run: ./XO-game.cpp
     - name: XOboard
+      run: sudo chmod 744 /home/user/XOboard.cpp
       run: ./XOboard.cpp
