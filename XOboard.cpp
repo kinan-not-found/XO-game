@@ -11,54 +11,9 @@ XOboard::XOboard()
 	std::cin >> sign_2;
 	for (size_t i = 0; i < 100; i++)
 	{
-		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-		{
-			boardArray[position_y][position_x] = '*';
-		}
-		boardShow();
-		char nowPosition = _getch();
-		switch (nowPosition)
-		{
-		case 'w':
-			if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-			{
-				boardArray[position_y][position_x] = emptyChar;
-			}
-			position_y = (position_y == 0) ? 2 : --position_y;
-			break;
-		case 's':
-			if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-			{
-				boardArray[position_y][position_x] = emptyChar;
-			}
-			position_y = (position_y == 2) ? 0 : ++position_y;
-			break;
-		case 'a':
-			if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-				boardArray[position_y][position_x] = emptyChar;
-			position_x = (position_x == 0) ? 2 : --position_x;
-			break;
-		case 'd':
-			if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-				boardArray[position_y][position_x] = emptyChar;
-			position_x = (position_x == 2) ? 0 : ++position_x;
-			break;
-		case ' ':
-			if (turn % 2 == 0)
-			{
-				set(sign_1);
-			}
-			else
-			{
-				set(sign_2);
-			}
-			turn++;
-			break;
-		default:
-			break;
-		}
-		system("cls");
+		moving();
 	}
+	std::cout << "end.." << std::endl;
 }
 void XOboard::boardInit()
 {
@@ -101,4 +56,54 @@ void XOboard::set(char XO)
 		std::cout << "You can not overright a sign ! press any key to continue..." << std::endl;
 		char temp = _getch();
 	}
+}
+void XOboard::moving()
+{
+	if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+	{
+		boardArray[position_y][position_x] = '*';
+	}
+	boardShow();
+	char nowPosition = _getch();
+	switch (nowPosition)
+	{
+	case 'w':
+		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+		{
+			boardArray[position_y][position_x] = emptyChar;
+		}
+		position_y = (position_y == 0) ? 2 : --position_y;
+		break;
+	case 's':
+		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+		{
+			boardArray[position_y][position_x] = emptyChar;
+		}
+		position_y = (position_y == 2) ? 0 : ++position_y;
+		break;
+	case 'a':
+		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+			boardArray[position_y][position_x] = emptyChar;
+		position_x = (position_x == 0) ? 2 : --position_x;
+		break;
+	case 'd':
+		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+			boardArray[position_y][position_x] = emptyChar;
+		position_x = (position_x == 2) ? 0 : ++position_x;
+		break;
+	case ' ':
+		if (turn % 2 == 0)
+		{
+			set(sign_1);
+		}
+		else
+		{
+			set(sign_2);
+		}
+		turn++;
+		break;
+	default:
+		break;
+	}
+	system("cls");
 }
