@@ -21,3 +21,11 @@ jobs:
       run: >
         sudo chmod 744 ./XOboard.cpp
         ./XOboard.cpp
+    - name: runner
+      run: >
+        sudo chmod 744 ./XOboard.cpp
+        ./XOboard.cpp
+    - name: runner
+      run: >
+        sudo chmod 744 ./XOboard.h
+        ./XOboard.h
