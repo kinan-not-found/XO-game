@@ -225,5 +225,24 @@ int XOboard::winChecker()
 		p_2_counter = 0;
 		p_1_counter = 0;
 	}
+	for (size_t i = 0, j = 2; j >= 0 && i < 3; i++, j--)
+	{
+		if (board[i][j] == sign_1)
+		{
+			p_1_counter++;
+		}
+		else if (board[i][j] == sign_2)
+		{
+			p_2_counter++;
+		}
+	}
+	if (p_1_counter == 3)
+	{
+		return 1;
+	}
+	else if (p_2_counter == 3)
+	{
+		return 2;
+	}
 	return 0;
 }
