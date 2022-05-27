@@ -3,7 +3,9 @@
 #include <conio.h>
 XOboard::XOboard()
 {
-	emptyChar = '_';
+	char answer = '\0';
+	empty_char = '_';
+	hover = '@';
 	boardInit();
 	std::cout << "Player 1 : Enter the sign you want to use : ";
 	std::cin >> sign_1;
@@ -12,10 +14,38 @@ XOboard::XOboard()
 	system("cls");
 	do
 	{
-		moving();
-	} while (round != 10);
-	boardShow();
-	std::cout << "end.." << std::endl;
+		do
+		{
+			moving();
+			if (winChecker())
+			{
+				break;
+			}
+		} while (round != 10);
+		boardShow();
+		if (winChecker() == 1)
+		{
+			std::cout << "Player 1 is the winner " << "( with the sign : " << sign_1 << " )." << std::endl;
+		}
+		if (winChecker() == 2)
+		{
+			std::cout << "Player 2 is the winner " << "( with the sign : " << sign_2 << " )." << std::endl;
+		}
+		if (winChecker() == 0)
+		{
+			std::cout << "draw." << std::endl;
+		}
+		while (answer != 'y' && answer != 'n')
+		{
+			std::cout << "Want to play again ? ( y / n )" << std::endl;
+			std::cin >> answer;
+			if (answer == 'y')
+			{
+				boardInit();
+			}
+			system("cls");
+		}
+	} while (answer != 'n');
 }
 void XOboard::boardInit()
 {
@@ -23,7 +53,7 @@ void XOboard::boardInit()
 	round = 1;
 	for (size_t i = 0; i < 3; i++)
 		for (size_t j = 0; j < 3; j++)
-			boardArray[i][j] = emptyChar;
+			board[i][j] = empty_char;
 	position_y = 0;
 	position_x = 0;
 }
@@ -46,18 +76,23 @@ void XOboard::boardShow()
 	{
 		for (size_t j = 0; j < 3; j++)
 		{
-			std::cout << boardArray[i][j] << "			";
+			std::cout << board[i][j] << "			";
 		}
-		std::cout << std::endl << std::endl << std::endl << std::endl;
+		if (i != 2)
+		{
+			std::cout << std::endl << std::endl << std::endl << std::endl;
+		}
+		else
+			std::cout << std::endl << std::endl;
 	}
 }
 void XOboard::set(char XO)
 {
-	if (boardArray[position_y][position_x] == '*')
+	if (board[position_y][position_x] == hover)
 	{
 		turn++;
 		round++;
-		boardArray[position_y][position_x] = XO;
+		board[position_y][position_x] = XO;
 	}
 	else
 	{
@@ -67,36 +102,36 @@ void XOboard::set(char XO)
 }
 void XOboard::moving()
 {
-	if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+	if (board[position_y][position_x] != sign_1 && board[position_y][position_x] != sign_2)
 	{
-		boardArray[position_y][position_x] = '*';
+		board[position_y][position_x] = hover;
 	}
 	boardShow();
 	char nowPosition = _getch();
 	switch (nowPosition)
 	{
 	case 'w':
-		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+		if (board[position_y][position_x] != sign_1 && board[position_y][position_x] != sign_2)
 		{
-			boardArray[position_y][position_x] = emptyChar;
+			board[position_y][position_x] = empty_char;
 		}
 		position_y = (position_y == 0) ? 2 : --position_y;
 		break;
 	case 's':
-		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
+		if (board[position_y][position_x] != sign_1 && board[position_y][position_x] != sign_2)
 		{
-			boardArray[position_y][position_x] = emptyChar;
+			board[position_y][position_x] = empty_char;
 		}
 		position_y = (position_y == 2) ? 0 : ++position_y;
 		break;
 	case 'a':
-		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-			boardArray[position_y][position_x] = emptyChar;
+		if (board[position_y][position_x] != sign_1 && board[position_y][position_x] != sign_2)
+			board[position_y][position_x] = empty_char;
 		position_x = (position_x == 0) ? 2 : --position_x;
 		break;
 	case 'd':
-		if (boardArray[position_y][position_x] != sign_1 && boardArray[position_y][position_x] != sign_2)
-			boardArray[position_y][position_x] = emptyChar;
+		if (board[position_y][position_x] != sign_1 && board[position_y][position_x] != sign_2)
+			board[position_y][position_x] = empty_char;
 		position_x = (position_x == 2) ? 0 : ++position_x;
 		break;
 	case ' ':
@@ -116,25 +151,79 @@ void XOboard::moving()
 	}
 	system("cls");
 }
-bool XOboard::winChecker()
+int XOboard::winChecker()
 {
-	//if ((boardArray[0][0] != emptyChar) == (boardArray[1][1] != emptyChar) == (boardArray[2][2] != emptyChar))
-	//	if (boardArray[0][0] == boardArray[1][1] == boardArray[2][2])
-	//		return true;
-	//if (boardArray[2][2] == boardArray[2][1] == boardArray[2][0] != emptyChar)
-	//	return true;
-	//if (boardArray[0][0] == boardArray[0][1] == boardArray[0][2] != emptyChar)
-	//	return true;
-	//if (boardArray[1][0] == boardArray[1][1] == boardArray[1][2] != emptyChar)
-	//	return true;
-	//if (boardArray[2][0] == boardArray[2][1] == boardArray[2][2] != emptyChar)
-	//	return true;
-	//if (boardArray[0][0] == boardArray[1][0] == boardArray[2][0] != emptyChar)
-	//	return true;
-	//if (boardArray[0][1] == boardArray[1][1] == boardArray[2][1] != emptyChar)
-	//	return true;
-	//if (boardArray[0][2] == boardArray[1][2] == boardArray[2][2] != emptyChar)
-	//	return true;
-	//return false;
-	return true;
+	int p_1_counter = 0, p_2_counter = 0;
+	for (size_t i = 0; i < 3; i++)
+	{
+		for (size_t j = 0; j < 3; j++)
+		{
+			if (board[i][j] == sign_1)
+			{
+				p_1_counter++;
+			}
+			else if (board[i][j] == sign_2)
+			{
+				p_2_counter++;
+			}
+		}
+		if (p_1_counter == 3)
+		{
+			return 1;
+		}
+		else if (p_2_counter == 3)
+		{
+			return 2;
+		}
+		p_1_counter = 0;
+		p_2_counter = 0;
+	}
+	for (size_t i = 0; i < 3; i++)
+	{
+		for (size_t j = 0; j < 3; j++)
+		{
+			if (i == j)
+			{
+				if (board[i][j] == sign_1)
+				{
+					p_1_counter++;
+				}
+				else if (board[i][j] == sign_2)
+				{
+					p_2_counter++;
+				}
+			}
+		}
+	}
+	if (p_1_counter == 3)
+	{
+		return 1;
+	}
+	else if (p_2_counter == 3)
+	{
+		return 2;
+	}
+	p_2_counter = 0;
+	p_1_counter = 0;
+	for (size_t i = 0; i < 3; i++)
+	{
+		for (size_t j = 0; j < 3; j++)
+		{
+			if (board[j][i] == sign_1)
+				p_1_counter++;
+			else if (board[j][i] == sign_2)
+				p_2_counter++;
+		}
+		if (p_1_counter == 3)
+		{
+			return 1;
+		}
+		else if (p_2_counter == 3)
+		{
+			return 2;
+		}
+		p_2_counter = 0;
+		p_1_counter = 0;
+	}
+	return 0;
 }
